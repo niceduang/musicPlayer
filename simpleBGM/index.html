@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>simple-bgmPlayer</title>
+</head>
+<body>
+	<div id="wrap"></div>
+	<a href="javascript:;" id="btnPlay">btnPlay</a>
+	<input type="button" value="toggle-status">
+	<script src="simple-bgmPlayer.js"></script>
+	<script type="text/javascript">
+		// 音乐播放
+		var audioBg = document.getElementById('audio');
+		// 背景音乐
+		function audioAutoPlay(audioEle){
+		    var autoPlay = function(){
+		        audioEle.play();
+		        document.removeEventListener("touchstart", autoPlay, false);
+		    };
+		    audioEle.play();
+		    document.addEventListener("WeixinJSBridgeReady", function () {//微信
+		       autoPlay();
+		    }, false);
+		    document.addEventListener("touchstart", autoPlay, false);
+		}
+		audioAutoPlay(audioBg);
+		// 切换背景音乐
+		var isAudioPlaying = true;
+		function toggleAudioBG(e){
+		    audioBg.preload="auto";
+		    if(e){
+		        audioBg.play();
+		    }else{
+		        audioBg.pause();
+		    }
+		    isAudioPlaying = e;
+		};
+		var btnPlay = document.querySelector('.btn_play');
+		btnPlay.addEventListener('touchstart', function(e){
+		    e.stopPropagation();
+		    if(isAudioPlaying){
+		        btnPlay.classList.add('pause');
+		        toggleAudioBG(false);
+		    }else{
+		        btnPlay.classList.remove('pause');
+		        toggleAudioBG(true);
+		    }
+		}, false);
+	</script>
+	<!-- <script type="text/javascript">
+		!(function(w){
+			var Player = function(){
+				// 
+			}
+			w.player = Player;
+		})(window);
+	</script>
+	<script>
+		// var url = 'http://game.gtimg.cn/images/x5/cp/a20180511xwten/bgmusic.mp3';
+		var player = bgmPlayer({
+			url: "http://game.gtimg.cn/images/x5/cp/a20180511xwten/bgmusic.mp3",
+			autoPlay: true
+		});
+	</script> -->
+</body>
+</html>
